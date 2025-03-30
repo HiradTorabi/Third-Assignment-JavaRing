@@ -3,30 +3,49 @@ package org.project.location;
 import org.project.entity.enemies.Enemy;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-public class Location {
+public class Location
+{
     private String name;
-
-    private ArrayList<Enemy> enemies;
-
-    public Location(ArrayList<Location> locations, ArrayList<Enemy> enemies) {
-        this.locations = locations;
-        this.enemies = enemies;
+    private List<Enemy> originalEnemies;
+    private List<Enemy> currentEnemies;
+    public Location(String name, List<Enemy> enemies)
+    {
+        this.name = name;
+        this.originalEnemies = new ArrayList<>(enemies);
+        this.currentEnemies = new ArrayList<>(enemies);
     }
-
-    /*
-    TODO: (BONUS) RESET EACH LOCATION AFTER PLAYER LEAVES
-    */
-
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
-
-    public ArrayList<Location> getLocations() {
-        return locations;
+    public List<Enemy> getEnemies()
+    {
+        return currentEnemies;
     }
-
-    public ArrayList<Enemy> getEnemies() {
-        return enemies;
+    public void resetEnemies()
+    {
+        currentEnemies = new ArrayList<>(originalEnemies);
+        System.out.println("🔄 Enemies in " + name + " have been reset!");
+    }
+    public Enemy getRandomEnemy()
+    {
+        if (currentEnemies.isEmpty())
+        {
+            System.out.println("No enemies left in " + name + ".");
+            return null;
+        }
+        Collections.shuffle(currentEnemies);
+        return currentEnemies.remove(0);
+    }
+    public void displayEnemies()
+    {
+        System.out.println("👾 Enemies in " + name + ":");
+        for (Enemy enemy : currentEnemies)
+        {
+            System.out.println("- " + enemy.getName());
+        }
     }
 }
